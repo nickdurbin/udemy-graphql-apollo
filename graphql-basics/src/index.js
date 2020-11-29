@@ -18,12 +18,14 @@ const posts = [{
   id: '1',
   title: 'Looking for Love',
   body: 'Writing some words here as a post.',
-  published: true
+  published: true,
+  author: '2'
 },{
   id: '2',
   title: 'Trying to Learn GraphQL',
   body: 'Learning some cool stuff and I like it. Adding the word here for testing',
-  published: false
+  published: false,
+  author: '1'
 }]
 
 // Type Definitions aka application schema
@@ -47,6 +49,7 @@ const typeDefs = `
     title: String!
     body: String!
     published: Boolean!
+    author: User!
   }
 
 
@@ -90,6 +93,13 @@ const resolvers = {
         body: 'lipsum',
         published: true
       }
+    }
+  },
+  Post: {
+    author(parent, args, ctx, info) {
+      return users.find((user) => {
+        return user.id === parent.author
+      })
     }
   }
 }
